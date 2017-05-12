@@ -1,0 +1,1332 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=monda:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="笔记," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="记录配置，备忘。
+第一步，配置generator.properties12345jdbc.driverLocation=D:/mavenreps/Mysql/mysql-connector-java/5.1.21/mysql-connector-java-5.1.21.jarjdbc.driverClass=com.mysql.jdbc.Driverjdbc.connectionURL=jdbc:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MyBatis For SpringMVC">
+<meta property="og:url" content="http://yoursite.com/2016/11/28/MyBatis-For-SpringMVC/index.html">
+<meta property="og:site_name" content="reipanel">
+<meta property="og:description" content="记录配置，备忘。
+第一步，配置generator.properties12345jdbc.driverLocation=D:/mavenreps/Mysql/mysql-connector-java/5.1.21/mysql-connector-java-5.1.21.jarjdbc.driverClass=com.mysql.jdbc.Driverjdbc.connectionURL=jdbc:">
+<meta property="og:image" content="http://yoursite.com/images/mybatis_plugin.png">
+<meta property="og:image" content="http://yoursite.com/images/generate_maven.png">
+<meta property="og:updated_time" content="2017-05-12T06:46:26.779Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MyBatis For SpringMVC">
+<meta name="twitter:description" content="记录配置，备忘。
+第一步，配置generator.properties12345jdbc.driverLocation=D:/mavenreps/Mysql/mysql-connector-java/5.1.21/mysql-connector-java-5.1.21.jarjdbc.driverClass=com.mysql.jdbc.Driverjdbc.connectionURL=jdbc:">
+<meta name="twitter:image" content="http://yoursite.com/images/mybatis_plugin.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/11/28/MyBatis-For-SpringMVC/"/>
+
+
+
+
+
+  <title>MyBatis For SpringMVC | reipanel</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">reipanel</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/28/MyBatis-For-SpringMVC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Duo Wang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="reipanel">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">MyBatis For SpringMVC</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-28T14:03:46+08:00">
+                2016-11-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a class="cloud-tie-join-count" href="/2016/11/28/MyBatis-For-SpringMVC/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>记录配置，备忘。</p>
+<h2 id="第一步，配置generator-properties"><a href="#第一步，配置generator-properties" class="headerlink" title="第一步，配置generator.properties"></a>第一步，配置generator.properties</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">jdbc.driverLocation=D:/mavenreps/Mysql/mysql-connector-java/5.1.21/mysql-connector-java-5.1.21.jar</div><div class="line">jdbc.driverClass=com.mysql.jdbc.Driver</div><div class="line">jdbc.connectionURL=jdbc:mysql://localhost:3306/computer?useUnicode=<span class="literal">true</span>&amp;characterEncoding=utf8</div><div class="line">jdbc.userId=root</div><div class="line">jdbc.password=c2653354</div></pre></td></tr></table></figure>
+<p>这里主要配置连接包地址、主机名、用户名、密码。</p>
+<h2 id="第二步，配置generatorConfig-xml"><a href="#第二步，配置generatorConfig-xml" class="headerlink" title="第二步，配置generatorConfig.xml"></a>第二步，配置generatorConfig.xml</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div></pre></td><td class="code"><pre><div class="line">  &lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span>?&gt;</div><div class="line">&lt;!DOCTYPE generatorConfiguration</div><div class="line">        PUBLIC <span class="string">"-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"</span></div><div class="line">        <span class="string">"http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd"</span>&gt;</div><div class="line">&lt;generatorConfiguration&gt;</div><div class="line">    &lt;!--导入属性配置 --&gt;</div><div class="line">    &lt;properties resource=<span class="string">"generator.properties"</span>&gt;&lt;/properties&gt;</div><div class="line"></div><div class="line">    &lt;!--指定特定数据库的jdbc驱动jar包的位置 --&gt;</div><div class="line">    &lt;classPathEntry location=<span class="string">"<span class="variable">$&#123;jdbc.driverLocation&#125;</span>"</span>/&gt;</div><div class="line"></div><div class="line">    &lt;context id=<span class="string">"default"</span> targetRuntime=<span class="string">"MyBatis3"</span>&gt;</div><div class="line"></div><div class="line">        &lt;!-- optional，旨在创建class时，对注释进行控制 --&gt;</div><div class="line">        &lt;commentGenerator&gt;</div><div class="line">            &lt;property name=<span class="string">"suppressAllComments"</span> value=<span class="string">"true"</span>/&gt;</div><div class="line">            &lt;property name=<span class="string">"suppressDate"</span> value=<span class="string">"true"</span>/&gt;</div><div class="line">        &lt;/commentGenerator&gt;</div><div class="line"></div><div class="line">        &lt;!--jdbc的数据库连接 --&gt;</div><div class="line">        &lt;jdbcConnection driverClass=<span class="string">"<span class="variable">$&#123;jdbc.driverClass&#125;</span>"</span> connectionURL=<span class="string">"<span class="variable">$&#123;jdbc.connectionURL&#125;</span>"</span> userId=<span class="string">"<span class="variable">$&#123;jdbc.userId&#125;</span>"</span></div><div class="line">                        password=<span class="string">"<span class="variable">$&#123;jdbc.password&#125;</span>"</span>&gt;</div><div class="line">        &lt;/jdbcConnection&gt;</div><div class="line"></div><div class="line">        &lt;!-- 非必需，类型处理器，在数据库类型和java类型之间的转换控制--&gt;</div><div class="line">        &lt;javaTypeResolver&gt;</div><div class="line">            &lt;property name=<span class="string">"forceBigDecimals"</span> value=<span class="string">"false"</span>/&gt;</div><div class="line">        &lt;/javaTypeResolver&gt;</div><div class="line"></div><div class="line">        &lt;!-- Model模型生成器,用来生成含有主键key的类，记录类 以及查询Example类</div><div class="line">            targetPackage     指定生成的model生成所在的包名</div><div class="line">            targetProject     指定在该项目下所在的路径</div><div class="line">        --&gt;</div><div class="line">        &lt;javaModelGenerator targetPackage=<span class="string">"com.springapp.mvc.model"</span> targetProject=<span class="string">"D:\apps\appServer\src\main\java"</span>&gt;</div><div class="line">            &lt;!-- 是否对model添加 构造函数 --&gt;</div><div class="line">            &lt;property name=<span class="string">"constructorBased"</span> value=<span class="string">"false"</span>/&gt;</div><div class="line"></div><div class="line">            &lt;!-- 是否允许子包，即targetPackage.schemaName.tableName --&gt;</div><div class="line">            &lt;property name=<span class="string">"enableSubPackages"</span> value=<span class="string">"false"</span>/&gt;</div><div class="line"></div><div class="line">            &lt;!-- 建立的Model对象是否 不可改变  即生成的Model对象不会有 setter方法，只有构造方法 --&gt;</div><div class="line">            &lt;property name=<span class="string">"immutable"</span> value=<span class="string">"false"</span>/&gt;</div><div class="line"></div><div class="line">            &lt;!-- 给Model添加一个父类 --&gt;</div><div class="line">            &lt;!--&lt;property name=<span class="string">"rootClass"</span> value=<span class="string">"com.foo.louis.Hello"</span>/&gt;--&gt;</div><div class="line"></div><div class="line">            &lt;!-- 是否对类CHAR类型的列的数据进行trim操作 --&gt;</div><div class="line">            &lt;property name=<span class="string">"trimStrings"</span> value=<span class="string">"true"</span>/&gt;</div><div class="line">        &lt;/javaModelGenerator&gt;</div><div class="line"></div><div class="line">        &lt;!--Mapper映射文件生成所在的目录 为每一个数据库的表生成对应的SqlMap文件 --&gt;</div><div class="line">        &lt;sqlMapGenerator targetPackage=<span class="string">"dbmap"</span> targetProject=<span class="string">"D:\apps\appServer\src\main\resources"</span>&gt;</div><div class="line">            &lt;property name=<span class="string">"enableSubPackages"</span> value=<span class="string">"false"</span>/&gt;</div><div class="line">        &lt;/sqlMapGenerator&gt;</div><div class="line"></div><div class="line"></div><div class="line">        &lt;!-- 客户端代码，生成易于使用的针对Model对象和XML配置文件 的代码</div><div class="line">                <span class="built_in">type</span>=<span class="string">"ANNOTATEDMAPPER"</span>,生成Java Model 和基于注解的Mapper对象</div><div class="line">                <span class="built_in">type</span>=<span class="string">"MIXEDMAPPER"</span>,生成基于注解的Java Model 和相应的Mapper对象</div><div class="line">                <span class="built_in">type</span>=<span class="string">"XMLMAPPER"</span>,生成SQLMap XML文件和独立的Mapper接口</div><div class="line">        --&gt;</div><div class="line">        &lt;javaClientGenerator targetPackage=<span class="string">"com.springapp.mvc.mapper"</span> targetProject=<span class="string">"D:\apps\appServer\src\main\java"</span> <span class="built_in">type</span>=<span class="string">"MIXEDMAPPER"</span>&gt;</div><div class="line">            &lt;!--&lt;property name=<span class="string">"enableSubPackages"</span> value=<span class="string">""</span>/&gt;--&gt;</div><div class="line">            &lt;!--</div><div class="line">                    定义Maper.java 源代码中的ByExample() 方法的可视性，可选的值有：</div><div class="line">                    public;</div><div class="line">                    private;</div><div class="line">                    protected;</div><div class="line">                    default</div><div class="line">                    注意：如果 targetRuntime=<span class="string">"MyBatis3"</span>,此参数被忽略</div><div class="line">             --&gt;</div><div class="line">            &lt;!--&lt;property name=<span class="string">"exampleMethodVisibility"</span> value=<span class="string">""</span>/&gt;--&gt;</div><div class="line">            &lt;!--</div><div class="line">                                           方法名计数器</div><div class="line">              Important note: this property is ignored <span class="keyword">if</span> the target runtime is MyBatis3.</div><div class="line">             --&gt;</div><div class="line">            &lt;!--&lt;property name=<span class="string">"methodNameCalculator"</span> value=<span class="string">""</span>/&gt;--&gt;</div><div class="line"></div><div class="line">            &lt;!--</div><div class="line">                                                为生成的接口添加父接口</div><div class="line">             --&gt;</div><div class="line">            &lt;!-- &lt;property name=<span class="string">"rootInterface"</span> value=<span class="string">""</span>/&gt;--&gt;</div><div class="line"></div><div class="line">        &lt;/javaClientGenerator&gt;</div><div class="line"></div><div class="line"></div><div class="line">        &lt;table tableName=<span class="string">"%"</span> schema=<span class="string">"root"</span> <span class="built_in">enable</span>CountByExample=<span class="string">"false"</span></div><div class="line">                <span class="built_in">enable</span>UpdateByExample=<span class="string">"false"</span> <span class="built_in">enable</span>DeleteByExample=<span class="string">"false"</span> <span class="built_in">enable</span>SelectByExample=<span class="string">"false"</span></div><div class="line">                selectByExampleQueryId=<span class="string">"false"</span>&gt;</div><div class="line"></div><div class="line">            &lt;!-- optional   , only <span class="keyword">for</span> mybatis3 runtime</div><div class="line">                 自动生成的键值（identity,或者序列值）</div><div class="line">               如果指定此元素，MBG将会生成&lt;selectKey&gt;元素，然后将此元素插入到SQL Map的&lt;insert&gt; 元素之中</div><div class="line">               sqlStatement 的语句将会返回新的值</div><div class="line">               如果是一个自增主键的话，你可以使用预定义的语句,或者添加自定义的SQL语句. 预定义的值如下:</div><div class="line">                  Cloudscape    This will translate to: VALUES IDENTITY_VAL_LOCAL()</div><div class="line">                  DB2:      VALUES IDENTITY_VAL_LOCAL()</div><div class="line">                  DB2_MF:       SELECT IDENTITY_VAL_LOCAL() FROM SYSIBM.SYSDUMMY1</div><div class="line">                  Derby:        VALUES IDENTITY_VAL_LOCAL()</div><div class="line">                  HSQLDB:   CALL IDENTITY()</div><div class="line">                  Informix:     select dbinfo(<span class="string">'sqlca.sqlerrd1'</span>) from systables <span class="built_in">where</span> tabid=1</div><div class="line">                  MySql:        SELECT LAST_INSERT_ID()</div><div class="line">                  SqlServer:    SELECT SCOPE_IDENTITY()</div><div class="line">                  SYBASE:   SELECT @@IDENTITY</div><div class="line">                  JDBC:     This will configure MBG to generate code <span class="keyword">for</span> MyBatis3 suport of JDBC standard generated keys. This is a database independent method of obtaining the value from identity columns.</div><div class="line">                  identity: 自增主键  If <span class="literal">true</span>, <span class="keyword">then</span> the column is flagged as an identity column and the generated &lt;selectKey&gt; element will be placed after the insert (<span class="keyword">for</span> an identity column). If <span class="literal">false</span>, <span class="keyword">then</span> the generated &lt;selectKey&gt; will be placed before the insert (typically <span class="keyword">for</span> a sequence).</div><div class="line"></div><div class="line">            --&gt;</div><div class="line">            &lt;!--&lt;generatedKey column=<span class="string">""</span> sqlStatement=<span class="string">"SELECT LAST_INSERT_ID()"</span> identity=<span class="string">"true"</span> <span class="built_in">type</span>=<span class="string">""</span>/&gt;--&gt;</div><div class="line">            &lt;generatedKey column=<span class="string">"id"</span> sqlStatement=<span class="string">"Mysql"</span> /&gt;</div><div class="line"></div><div class="line">            &lt;!-- optional.</div><div class="line">                    列的命名规则：</div><div class="line">                    MBG使用 &lt;columnRenamingRule&gt; 元素在计算列名的对应 名称之前，先对列名进行重命名，</div><div class="line">                    作用：一般需要对BUSI_CLIENT_NO 前的BUSI_进行过滤</div><div class="line">                    支持正在表达式</div><div class="line">                     searchString 表示要被换掉的字符串</div><div class="line">                     replaceString 则是要换成的字符串，默认情况下为空字符串，可选</div><div class="line">            --&gt;</div><div class="line">            &lt;!--&lt;columnRenamingRule searchString=<span class="string">""</span> replaceString=<span class="string">""</span>/&gt;--&gt;</div><div class="line"></div><div class="line"></div><div class="line">            &lt;!-- optional.告诉 MBG 忽略某一列</div><div class="line">                    column，需要忽略的列</div><div class="line">                    delimitedColumnName:<span class="literal">true</span> ,匹配column的值和数据库列的名称 大小写完全匹配，<span class="literal">false</span> 忽略大小写匹配</div><div class="line">                    是否限定表的列名，即固定表列在Model中的名称</div><div class="line">            --&gt;</div><div class="line">          &lt;!--  &lt;ignoreColumn column=<span class="string">"PLAN_ID"</span> delimitedColumnName=<span class="string">"true"</span>/&gt;--&gt;</div><div class="line"></div><div class="line"></div><div class="line">            &lt;!--optional.覆盖MBG对Model 的生成规则</div><div class="line">                 column: 数据库的列名</div><div class="line">                 javaType: 对应的Java数据类型的完全限定名</div><div class="line">                 在必要的时候可以覆盖由JavaTypeResolver计算得到的java数据类型. For some databases, this is necessary to handle <span class="string">"odd"</span> database types (e.g. MySql<span class="string">'s unsigned bigint type should be mapped to java.lang.Object).</span></div><div class="line">                 jdbcType:该列的JDBC数据类型(INTEGER, DECIMAL, NUMERIC, VARCHAR, etc.)，该列可以覆盖由JavaTypeResolver计算得到的Jdbc类型，对某些数据库而言，对于处理特定的JDBC 驱动癖好 很有必要(e.g. DB2's LONGVARCHAR <span class="built_in">type</span> should be mapped to VARCHAR <span class="keyword">for</span> iBATIS).</div><div class="line">                 <span class="built_in">type</span>Handler:</div><div class="line"></div><div class="line">            --&gt;</div><div class="line">            &lt;!--&lt;columnOverride column=<span class="string">""</span> javaType=<span class="string">""</span> jdbcType=<span class="string">""</span> <span class="built_in">type</span>Handler=<span class="string">""</span> delimitedColumnName=<span class="string">""</span>/&gt;--&gt;</div><div class="line"></div><div class="line">        &lt;/table&gt;</div><div class="line">    &lt;/context&gt;</div><div class="line">&lt;/generatorConfiguration&gt;</div></pre></td></tr></table></figure>
+<p>这样mybatis的配置文件就算完成了</p>
+<h4 id="使用idea还需要添加mybatis的插件"><a href="#使用idea还需要添加mybatis的插件" class="headerlink" title="使用idea还需要添加mybatis的插件"></a>使用idea还需要添加mybatis的插件</h4><p><img src="/images/mybatis_plugin.png" alt="Alt text"></p>
+<h4 id="通过maven配置启动"><a href="#通过maven配置启动" class="headerlink" title="通过maven配置启动"></a>通过maven配置启动</h4><p><img src="/images/generate_maven.png" alt="Alt text"></p>
+<h2 id="第三步，注册spring-bean"><a href="#第三步，注册spring-bean" class="headerlink" title="第三步，注册spring bean"></a>第三步，注册spring bean</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">   &lt;bean id=<span class="string">"sqlSessionFactory"</span> class=<span class="string">"org.mybatis.spring.SqlSessionFactoryBean"</span>&gt;</div><div class="line">       &lt;property name=<span class="string">"dataSource"</span> ref=<span class="string">"dataSource"</span>/&gt;</div><div class="line">   &lt;!--&lt;property name=<span class="string">"configLocation"</span> value=<span class="string">"classpath:mybatis-config.xml"</span>/&gt;--&gt;</div><div class="line">       &lt;property name=<span class="string">"mapperLocations"</span> value=<span class="string">"classpath:dbmap/*Mapper.xml"</span>/&gt;</div><div class="line">   &lt;/bean&gt;</div><div class="line">&lt;!-- 查 找 类 路 径 下 的 映 射 器 并 自 动 将 它 们 创 建 成 MapperFactoryBean--&gt;</div><div class="line">   &lt;bean class=<span class="string">"org.mybatis.spring.mapper.MapperScannerConfigurer"</span>&gt;</div><div class="line">       &lt;property name=<span class="string">"basePackage"</span> value=<span class="string">"com.springapp.mvc.mapper"</span>/&gt;</div><div class="line">       &lt;!--&lt;property name=<span class="string">"sqlSessionFactoryBeanName"</span> value=<span class="string">"sqlSessionFactory"</span> /&gt;--&gt;</div><div class="line">   &lt;/bean&gt;</div></pre></td></tr></table></figure>
+<h2 id="第四步"><a href="#第四步" class="headerlink" title="第四步"></a>第四步</h2><p>搬砖吧。。。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>对您有帮助？给博主投食</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/pay/wechat-reward-image.jpg" alt="Duo Wang WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/pay/alipay-reward-image.png" alt="Duo Wang Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/笔记/" rel="tag"># 笔记</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/28/io-article/" rel="next" title="Java API中简单常用的IO处理">
+                <i class="fa fa-chevron-left"></i> Java API中简单常用的IO处理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/05/uyan/" rel="prev" title="测试网易云跟帖">
+                测试网易云跟帖 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/head.jpg"
+               alt="Duo Wang" />
+          <p class="site-author-name" itemprop="name">Duo Wang</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="G" target="_blank" title="0">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  0
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="i" target="_blank" title="1">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  1
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="t" target="_blank" title="2">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  2
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="H" target="_blank" title="3">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  3
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="u" target="_blank" title="4">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  4
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="b" target="_blank" title="5">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  5
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href=":" target="_blank" title="6">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  6
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="h" target="_blank" title="7">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  7
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="t" target="_blank" title="8">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  8
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="t" target="_blank" title="9">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  9
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="p" target="_blank" title="10">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  10
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="s" target="_blank" title="11">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  11
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href=":" target="_blank" title="12">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  12
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="/" target="_blank" title="13">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  13
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="/" target="_blank" title="14">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  14
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="g" target="_blank" title="15">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  15
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="i" target="_blank" title="16">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  16
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="t" target="_blank" title="17">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  17
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="h" target="_blank" title="18">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  18
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="u" target="_blank" title="19">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  19
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="b" target="_blank" title="20">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  20
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="." target="_blank" title="21">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  21
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="c" target="_blank" title="22">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  22
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="o" target="_blank" title="23">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  23
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="m" target="_blank" title="24">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  24
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="/" target="_blank" title="25">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  25
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="a" target="_blank" title="26">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  26
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="a" target="_blank" title="27">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  27
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="a" target="_blank" title="28">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  28
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="a" target="_blank" title="29">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  29
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="9" target="_blank" title="30">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  30
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="9" target="_blank" title="31">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  31
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="9" target="_blank" title="32">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  32
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="0" target="_blank" title="33">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  33
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="a" target="_blank" title="34">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  34
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="a" target="_blank" title="35">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  35
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="a" target="_blank" title="36">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  36
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="a" target="_blank" title="37">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  37
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="/" target="_blank" title="38">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  38
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="a" target="_blank" title="39">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  39
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="a" target="_blank" title="40">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  40
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="a" target="_blank" title="41">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  41
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="a" target="_blank" title="42">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  42
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="9" target="_blank" title="43">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  43
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="9" target="_blank" title="44">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  44
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="9" target="_blank" title="45">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  45
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="0" target="_blank" title="46">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  46
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="a" target="_blank" title="47">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  47
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="a" target="_blank" title="48">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  48
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="a" target="_blank" title="49">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  49
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="a" target="_blank" title="50">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  50
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="." target="_blank" title="51">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  51
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="g" target="_blank" title="52">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  52
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="i" target="_blank" title="53">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  53
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="t" target="_blank" title="54">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  54
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="h" target="_blank" title="55">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  55
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="u" target="_blank" title="56">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  56
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="b" target="_blank" title="57">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  57
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="." target="_blank" title="58">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  58
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="i" target="_blank" title="59">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  59
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="o" target="_blank" title="60">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  60
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一步，配置generator-properties"><span class="nav-number">1.</span> <span class="nav-text">第一步，配置generator.properties</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二步，配置generatorConfig-xml"><span class="nav-number">2.</span> <span class="nav-text">第二步，配置generatorConfig.xml</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用idea还需要添加mybatis的插件"><span class="nav-number">2.0.1.</span> <span class="nav-text">使用idea还需要添加mybatis的插件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通过maven配置启动"><span class="nav-number">2.0.2.</span> <span class="nav-text">通过maven配置启动</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三步，注册spring-bean"><span class="nav-number">3.</span> <span class="nav-text">第三步，注册spring bean</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第四步"><span class="nav-number">4.</span> <span class="nav-text">第四步</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Duo Wang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+    
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "977d631f4fa44cd8ac108e5c41a854d0",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
